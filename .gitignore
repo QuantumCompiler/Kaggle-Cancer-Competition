@@ -1,3 +1,4 @@
 **/test/
 **/train/
 **/venv/
+.DS_Store
