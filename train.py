@@ -1,8 +1,8 @@
 import pandas as pd
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import GlobalAveragePooling2D, Dense
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import GlobalAveragePooling2D, Dense, Input
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 
 df = pd.read_csv('train_labels.csv')
@@ -44,14 +44,16 @@ validation_generator = train_datagen.flow_from_dataframe(
     subset='validation'
 )
 
-base_model = ResNet50(input_shape=(96, 96, 3), include_top=False, weights='imagenet')
+input_tensor = Input(shape=(96, 96, 3))
+
+base_model = ResNet50(input_tensor=input_tensor, include_top=False, weights='imagenet')
 base_model.trainable = False
 
-model = Sequential([
-    base_model,
-    GlobalAveragePooling2D(),
-    Dense(1, activation='sigmoid')
-])
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+output_tensor = Dense(1, activation='sigmoid')(x)
+
+model = Model(inputs=base_model.input, outputs=output_tensor)
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
@@ -62,9 +64,9 @@ callbacks = [
 
 model.fit(
     train_generator,
-    epochs=1,
+    epochs=10,
     validation_data=validation_generator,
     callbacks=callbacks
 )
 
-model.save('cancer_detector_1_epoch.keras')
+model.save('cancer_detector.keras')
