@@ -11,9 +11,9 @@
 
 \addbibresource{sample.bib} % BibLaTeX bibliography file
 
-\runninghead{Shortened Running Article Title} % A shortened article title to appear in the running head, leave this command empty for no running head
+\runninghead{} % A shortened article title to appear in the running head, leave this command empty for no running head
 
-\footertext{\textit{Journal of Biological Sampling} (2024) 12:533-684} % Text to appear in the footer, leave this command empty for no footer text
+\footertext{} % Text to appear in the footer, leave this command empty for no footer text
 
 \setcounter{page}{1} % The page number of the first page, set this to a higher number if the article is to be part of an issue or larger work
 
@@ -103,6 +103,89 @@ of each subsequent epoch were saved using the \textit{ModelCheckpoint} class fro
 
 \section{Model Results}
 
-After the model was created, the next step was to evaluate the model. This was achieved by loading the saved model that was previously created and evaluating it in a separate file.
+After the model was created, the next step was to evaluate the model. This was achieved by loading the saved model that was previously created and evaluating it in a separate file. 
+
+\subsection{Model Training}
+
+The results from the 10 epochs that were trained can be seen in the table below:
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\textbf{\#} & \textbf{T. Acc} & \textbf{T. Loss} & \textbf{V. Acc} & \textbf{V. Loss} \\ \hline
+		1 & 0.5981 & 0.6611 & 0.6655 & 0.6245 \\ \hline
+		2 & 0.6555 & 0.6204 & 0.6942 & 0.6078 \\ \hline
+		3 & 0.6774 & 0.6048 & 0.6947 & 0.5972 \\ \hline
+		4 & 0.6928 & 0.5944 & 0.6949 & 0.5890 \\ \hline
+		5 & 0.6948 & 0.5885 & 0.7049 & 0.5863 \\ \hline
+		6 & 0.6977 & 0.5855 & 0.7025 & 0.5819 \\ \hline
+		7 & 0.7032 & 0.5799 & 0.7099 & 0.5756 \\ \hline
+		8 & 0.7038 & 0.5789 & 0.7086 & 0.5761 \\ \hline
+		9 & 0.7062 & 0.5751 & 0.7096 & 0.5739 \\ \hline
+		10 & 0.7087 & 0.5720 & 0.7058 & 0.5715 \\ \hline
+	\end{tabular}
+	\caption*{Training And Validation Results}
+\end{table}
+
+We can visualize the results of the epoch accuracy and loss below:
+
+\begin{center}
+	\includegraphics[width=0.45\textwidth]{Figures/Epoch Results Graph.png}
+\end{center}
+
+After all 10 epochs were trained, the final values for the accuracy and loss were:
+
+\begin{itemize}
+	\item \textbf{Training Accuracy:} 0.7087
+	\item \textbf{Training Loss:} 0.5720
+	\item \textbf{Validation Accuracy:} 0.7058
+	\item \textbf{Validation Loss:} 0.5715
+\end{itemize}
+
+From the beginning to the end of the training, the model improved in accuracy and loss. The total change of the values were:
+
+\begin{itemize}
+	\item \textbf{Training Accuracy Change:} 0.1106
+	\item \textbf{Training Loss Change:} 0.0891
+	\item \textbf{Validation Accuracy Change:} 0.0403
+	\item \textbf{Validation Loss Change:} 0.0530
+\end{itemize}
+
+\subsection{Model Evaluation}
+
+After the model was trained with the 10 epochs, it was evaluated and the results were put into a CSV. Since there are 57,458 images in the test set, it is impractical to show the results in a table
+format. Instead, the results of the \textit{label} column were plotted in a histogram.
+
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{Figures/Positive Cancer Probability.png}
+\end{center}
+
+The above image shows a frequency of probability distributions found from the model evaluation. On the x-axis, the probability of the image being positive for cancer is shown. On the y-axis, the frequency
+of the given probability is shown.
+
+\subsection{Kaggle Submission}
+
+After the model was evaluated, the results were put into a CSV file and then submitted to Kaggle. The screenshot from the Kaggle submission can be seen below:
+
+\begin{center}
+	\includegraphics[width=0.5\textwidth]{Figures/Kaggle Results - Individual.png}
+\end{center}
+
+Due to the Kaggle competition being closed, the results from this model were not able to be placed on the leader board. The final public score of this competition was \textbf{0.7090}.
+
+\section{Conclusion}
+
+In conclusion, the model that was created was able to classify images that represented cancer with an accuracy of 70.90\%. This model was trained with 10 epochs and was able to improve in accuracy and loss
+and generally performed pretty well. Considering that the model was trained with a pre-trained model, the results were pretty good. The model was able to classify images with a high degree of accuracy and
+if more fine tuning were possible, the model could have performed even better.
+
+\subsection{GitHub Repository}
+
+The source code that was used to create this model can be found in the following GitHub repository:
+
+\begin{itemize}
+	\item \href{https://github.com/QuantumCompiler/Kaggle-Cancer-Competition}{QuantumCompiler - Kaggle Cancer Competition}
+\end{itemize}
 
 \end{document}
